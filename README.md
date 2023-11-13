@@ -2,7 +2,7 @@
 
 ## 환경
 
-* Vue 3.0
+* Vue 3
 * JavaScript
 * Vite
 * Vuex & Pinia
