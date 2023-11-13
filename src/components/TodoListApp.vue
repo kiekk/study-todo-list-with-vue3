@@ -2,8 +2,15 @@
   <div>
     <div id="header" class="header">
       <h2>Todo List App</h2>
-      <input type="text" class="input" id="task" placeholder="입력 후 엔터" />
-      <span class="addButton">추가</span>
+      <input
+        v-model="todo"
+        type="text"
+        class="input"
+        id="task"
+        placeholder="입력 후 엔터"
+        @keyup.enter="addTodo"
+      />
+      <span class="addButton" @click="addTodo">추가</span>
     </div>
     <ul id="todolist">
       <li
@@ -23,6 +30,7 @@
 <script setup>
 import { computed, reactive } from 'vue'
 
+let todo = reactive('')
 const todoList = reactive([
   { id: 1, todo: '영화보기', done: false },
   { id: 2, todo: '산책하기', done: true },
@@ -41,8 +49,24 @@ const doneToggle = (id) => {
 }
 
 const deleteTodo = (id) => {
-  const index = todoList.findIndex(item => item.id === id)
+  const index = todoList.findIndex((item) => item.id === id)
   todoList.splice(index, 1)
+}
+
+const addTodo = () => {
+  // 입력값 검증
+  if (todo.trim() === '' || todo.trim() === null) {
+    alert('할 일을 입력해주세요.')
+    return false
+  }
+
+  todoList.push({
+    id: todoList.length + 1,
+    todo: todo.trim(),
+    done: false
+  })
+
+  todo = ''
 }
 </script>
 
