@@ -6,7 +6,7 @@
       <span class="addButton">추가</span>
     </div>
     <ul id="todolist">
-      <li v-for="todo in todoList" :key="todo.id" :class="isDone(todo.done)">
+      <li v-for="todo in todoList" :key="todo.id" :class="isDone(todo.done)" @click="doneToggle(todo.id)">
         <span>{{ todo.todo }}</span>
         <span v-if="todo.done"> (완료)</span>
         <span class="close">&#x00D7;</span>
@@ -16,19 +16,24 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, reactive } from "vue";
 
-const todoList = [
+const todoList = reactive([
   { id: 1, todo: '영화보기', done: false },
   { id: 2, todo: '산책하기', done: true },
   { id: 3, todo: '저녁먹기', done: false },
   { id: 4, todo: '개발공부하기', done: true },
   { id: 4, todo: '블로그작성하기', done: true }
-]
+])
 
 const isDone = computed(() => (done) => {
   return { checked: done }
 })
+
+const doneToggle = (id) => {
+  const findTodo = todoList.find(todo => todo.id === id)
+  findTodo.done = !findTodo.done
+}
 
 </script>
 
