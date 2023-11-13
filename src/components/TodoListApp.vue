@@ -6,17 +6,22 @@
       <span class="addButton">추가</span>
     </div>
     <ul id="todolist">
-      <li v-for="todo in todoList" :key="todo.id" :class="isDone(todo.done)" @click="doneToggle(todo.id)">
+      <li
+        v-for="todo in todoList"
+        :key="todo.id"
+        :class="isDone(todo.done)"
+        @click="doneToggle(todo.id)"
+      >
         <span>{{ todo.todo }}</span>
         <span v-if="todo.done"> (완료)</span>
-        <span class="close">&#x00D7;</span>
+        <span class="close" @click="deleteTodo(todo.id)">&#x00D7;</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script setup>
-import { computed, reactive } from "vue";
+import { computed, reactive } from 'vue'
 
 const todoList = reactive([
   { id: 1, todo: '영화보기', done: false },
@@ -31,10 +36,14 @@ const isDone = computed(() => (done) => {
 })
 
 const doneToggle = (id) => {
-  const findTodo = todoList.find(todo => todo.id === id)
+  const findTodo = todoList.find((todo) => todo.id === id)
   findTodo.done = !findTodo.done
 }
 
+const deleteTodo = (id) => {
+  const index = todoList.findIndex(item => item.id === id)
+  todoList.splice(index, 1)
+}
 </script>
 
 <style>
