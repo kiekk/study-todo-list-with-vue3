@@ -2,26 +2,73 @@
   <div>
     <div id="header" class="header">
       <h2>Todo List App</h2>
-      <input type="text" class="input" id="task" placeholder="입력 후 엔터" />
-      <span class="addButton">추가</span>
+      <input
+        v-model="todo"
+        type="text"
+        class="input"
+        id="task"
+        placeholder="입력 후 엔터"
+        @keyup.enter="addTodo"
+      />
+      <span class="addButton" @click="addTodo">추가</span>
     </div>
     <ul id="todolist">
-      <li>
-        <span>Task 1</span>
-        <span class="close">&#x00D7;</span>
-      </li>
-      <li class="checked">
-        <span>Task 2</span>
-        <span> (완료)</span>
-        <span class="close"></span>
-      </li>
-      <li>
-        <span>Task 1</span>
-        <span class="close">&#x00D7;</span>
+      <li
+        v-for="todo in todoList"
+        :key="todo.id"
+        :class="isDone(todo.done)"
+        @click="doneToggle(todo.id)"
+      >
+        <span>{{ todo.todo }}</span>
+        <span v-if="todo.done"> (완료)</span>
+        <span class="close" @click="deleteTodo(todo.id)">&#x00D7;</span>
       </li>
     </ul>
   </div>
 </template>
+
+<script setup>
+import { computed, reactive } from 'vue'
+
+let todo = reactive('')
+const todoList = reactive([
+  { id: 1, todo: '영화보기', done: false },
+  { id: 2, todo: '산책하기', done: true },
+  { id: 3, todo: '저녁먹기', done: false },
+  { id: 4, todo: '개발공부하기', done: true },
+  { id: 4, todo: '블로그작성하기', done: true }
+])
+
+const isDone = computed(() => (done) => {
+  return { checked: done }
+})
+
+const doneToggle = (id) => {
+  const findTodo = todoList.find((todo) => todo.id === id)
+  findTodo.done = !findTodo.done
+}
+
+const deleteTodo = (id) => {
+  const index = todoList.findIndex((item) => item.id === id)
+  todoList.splice(index, 1)
+}
+
+const addTodo = () => {
+  // 입력값 검증
+  if (todo.trim() === '' || todo.trim() === null) {
+    alert('할 일을 입력해주세요.')
+    return false
+  }
+
+  todoList.push({
+    id: todoList.length + 1,
+    todo: todo.trim(),
+    done: false
+  })
+
+  todo = ''
+}
+</script>
 
 <style>
 * {
