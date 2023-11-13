@@ -6,7 +6,7 @@
       <span class="addButton">추가</span>
     </div>
     <ul id="todolist">
-      <li v-for="todo in todoList" :key="todo.id" :class="todo.done ? 'checked' : ''">
+      <li v-for="todo in todoList" :key="todo.id" :class="isDone(todo.done)">
         <span>{{ todo.todo }}</span>
         <span v-if="todo.done"> (완료)</span>
         <span class="close">&#x00D7;</span>
@@ -16,6 +16,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const todoList = [
   { id: 1, todo: '영화보기', done: false },
   { id: 2, todo: '산책하기', done: true },
@@ -23,6 +25,11 @@ const todoList = [
   { id: 4, todo: '개발공부하기', done: true },
   { id: 4, todo: '블로그작성하기', done: true }
 ]
+
+const isDone = computed(() => (done) => {
+  return { checked: done }
+})
+
 </script>
 
 <style>
