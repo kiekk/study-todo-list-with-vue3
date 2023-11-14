@@ -1,5 +1,6 @@
-export default {
-  namespaced: true,
+import { defineStore } from 'pinia'
+
+export const useTodoStore = defineStore('todo', {
   state: () => ({
     todoList: [
       { id: 1, todo: '영화보기', done: false },
@@ -14,34 +15,21 @@ export default {
       return state.todoList
     },
   },
-  mutations: {
-    addTodo(state, todo) {
-      state.todoList.push(todo)
-    },
-    setTodoList(state, todoList) {
-      state.todoList = todoList
-    },
-    doneToggle(state, index) {
-      state.todoList[index].done = !state.todoList[index].done
-    },
-  },
   actions: {
-    addTodo({ getters, commit }, todo) {
-      commit('addTodo', {
-        id: getters.getTodoList.length + 1,
+    addTodo(todo) {
+      this.todoList.push({
+        id: this.todoList.length + 1,
         todo: todo.trim(),
         done: false,
       })
     },
-    deleteTodo({ getters, commit }, id) {
-      commit(
-        'setTodoList',
-        getters.getTodoList.filter((item) => item.id !== id),
-      )
+    deleteTodo(id) {
+      const index = this.todoList.findIndex((item) => item.id === id)
+      this.todoList.splice(index, 1)
     },
-    doneToggle({ getters, commit }, id) {
-      const index = getters.getTodoList.findIndex((item) => item.id === id)
-      commit('doneToggle', index)
+    doneToggle(id) {
+      const index = this.todoList.findIndex((item) => item.id === id)
+      this.todoList[index].done = !this.todoList[index].done
     },
   },
-}
+})

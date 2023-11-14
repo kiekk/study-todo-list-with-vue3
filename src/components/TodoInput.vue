@@ -15,10 +15,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
+import { useTodoStore } from '@/store/todo'
 
 const todo = ref('')
-const store = useStore()
+const todoStore = useTodoStore()
 
 const addTodo = () => {
   // 입력값 검증
@@ -27,7 +27,7 @@ const addTodo = () => {
     return false
   }
 
-  store.dispatch('todo/addTodo', todo.value.trim())
+  todoStore.addTodo(todo.value.trim())
   todo.value = ''
 }
 </script>
