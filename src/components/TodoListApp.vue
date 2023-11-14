@@ -12,23 +12,13 @@
       />
       <span class="addButton" @click="addTodo">추가</span>
     </div>
-    <ul id="todolist">
-      <li
-        v-for="todo in todoList"
-        :key="todo.id"
-        :class="isDone(todo.done)"
-        @click="doneToggle(todo.id)"
-      >
-        <span>{{ todo.todo }}</span>
-        <span v-if="todo.done"> (완료)</span>
-        <span class="close" @click="deleteTodo(todo.id)">&#x00D7;</span>
-      </li>
-    </ul>
+    <TodoList :todo-list="todoList" />
   </div>
 </template>
 
 <script setup>
-import { computed, reactive } from 'vue'
+import TodoList from '@/components/TodoList.vue'
+import { reactive } from 'vue'
 
 let todo = reactive('')
 const todoList = reactive([
@@ -38,20 +28,6 @@ const todoList = reactive([
   { id: 4, todo: '개발공부하기', done: true },
   { id: 4, todo: '블로그작성하기', done: true }
 ])
-
-const isDone = computed(() => (done) => {
-  return { checked: done }
-})
-
-const doneToggle = (id) => {
-  const findTodo = todoList.find((todo) => todo.id === id)
-  findTodo.done = !findTodo.done
-}
-
-const deleteTodo = (id) => {
-  const index = todoList.findIndex((item) => item.id === id)
-  todoList.splice(index, 1)
-}
 
 const addTodo = () => {
   // 입력값 검증
