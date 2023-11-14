@@ -12,7 +12,7 @@
       />
       <span class="addButton" @click="addTodo">추가</span>
     </div>
-    <TodoList :todo-list="todoList" />
+    <TodoList :todo-list="todoList" @done-toggle="doneToggle"/>
   </div>
 </template>
 
@@ -43,6 +43,11 @@ const addTodo = () => {
   })
 
   todo = ''
+}
+
+const doneToggle = (id) => {
+  const findTodo = todoList.find((todo) => todo.id === id)
+  findTodo.done = !findTodo.done
 }
 </script>
 
