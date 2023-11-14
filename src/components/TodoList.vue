@@ -1,30 +1,21 @@
 <template>
   <ul id="todolist">
-    <li
-      v-for="todo in todoList"
-      :key="todo.id"
-      :class="isDone(todo.done)"
-      @click="$emit('doneToggle', todo.id)"
-    >
-      <span>{{ todo.todo }}</span>
-      <span v-if="todo.done"> (완료)</span>
-      <span class="close" @click="deleteTodo(todo.id)">&#x00D7;</span>
-    </li>
+    <TodoListItem v-for="todo in todoList" :key="todo.id" :todo="todo" @done-toggle="doneToggle" @delete-todo="deleteTodo"/>
   </ul>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import TodoListItem from '@/components/TodoListItem.vue'
 
 defineProps({
   todoList: Array
 })
 
-const emit = defineEmits(['deleteTodo'])
+const emit = defineEmits(['doneToggle', 'deleteTodo'])
 
-const isDone = computed(() => (done) => {
-  return { checked: done }
-})
+const doneToggle = (id) => {
+  emit('doneToggle', id)
+}
 
 const deleteTodo = (id) => {
   emit('deleteTodo', id)
