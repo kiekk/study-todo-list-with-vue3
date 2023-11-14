@@ -15,10 +15,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 const todo = ref('')
+const store = useStore()
 
-const emit = defineEmits(['addTodo'])
 const addTodo = () => {
   // 입력값 검증
   if (todo.value.trim() === '' || todo.value.trim() === null) {
@@ -26,7 +27,7 @@ const addTodo = () => {
     return false
   }
 
-  emit('addTodo', todo.value)
+  store.dispatch('todo/addTodo', todo.value.trim())
   todo.value = ''
 }
 </script>
