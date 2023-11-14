@@ -26,7 +26,7 @@ const todoList = reactive([
   { id: 2, todo: '산책하기', done: true },
   { id: 3, todo: '저녁먹기', done: false },
   { id: 4, todo: '개발공부하기', done: true },
-  { id: 4, todo: '블로그작성하기', done: true }
+  { id: 5, todo: '블로그작성하기', done: true }
 ])
 
 const addTodo = () => {
