@@ -12,7 +12,7 @@
       />
       <span class="addButton" @click="addTodo">추가</span>
     </div>
-    <TodoList :todo-list="todoList" @done-toggle="doneToggle"/>
+    <TodoList :todo-list="todoList" @done-toggle="doneToggle" @delete-todo="deleteTodo" />
   </div>
 </template>
 
@@ -48,6 +48,11 @@ const addTodo = () => {
 const doneToggle = (id) => {
   const findTodo = todoList.find((todo) => todo.id === id)
   findTodo.done = !findTodo.done
+}
+
+const deleteTodo = (id) => {
+  const index = todoList.findIndex((item) => item.id === id)
+  todoList.splice(index, 1)
 }
 </script>
 
