@@ -8,22 +8,23 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 const { todo } = defineProps({
-  todo: Object
+  todo: Object,
 })
 
-const emit = defineEmits(['doneToggle', 'deleteTodo'])
+const store = useStore()
 
 const isDone = computed(() => {
   return { checked: todo.done }
 })
 
 const doneToggle = () => {
-  emit('doneToggle', todo.id)
+  store.dispatch('todo/doneToggle', todo.id)
 }
 
 const deleteTodo = () => {
-  emit('deleteTodo', todo.id)
+  store.dispatch('todo/deleteTodo', todo.id)
 }
 </script>
