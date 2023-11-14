@@ -1,16 +1,16 @@
 <template>
   <div>
     <TodoInput />
-    <TodoList :todo-list="store.getters['todo/getTodoList']" />
+    <TodoList :todo-list="todoStore.getTodoList" />
   </div>
 </template>
 
 <script setup>
 import TodoList from '@/components/TodoList.vue'
 import TodoInput from '@/components/TodoInput.vue'
-import { useStore } from 'vuex'
+import { useTodoStore } from '@/store/todo'
 
-const store = useStore()
+const todoStore = useTodoStore()
 </script>
 
 <style>

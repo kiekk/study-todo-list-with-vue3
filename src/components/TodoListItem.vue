@@ -1,5 +1,5 @@
 <template>
-  <li :class="isDone" @click="doneToggle">
+  <li :class="isDone" @click.capture="doneToggle">
     <span>{{ todo.todo }}</span>
     <span v-if="todo.done"> (완료)</span>
     <span class="close" @click="deleteTodo">&#x00D7;</span>
@@ -8,23 +8,23 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { useTodoStore } from '@/store/todo'
 
 const { todo } = defineProps({
   todo: Object,
 })
 
-const store = useStore()
+const todoStore = useTodoStore()
 
 const isDone = computed(() => {
   return { checked: todo.done }
 })
 
 const doneToggle = () => {
-  store.dispatch('todo/doneToggle', todo.id)
+  todoStore.doneToggle(todo.id)
 }
 
 const deleteTodo = () => {
-  store.dispatch('todo/deleteTodo', todo.id)
+  todoStore.deleteTodo(todo.id)
 }
 </script>
